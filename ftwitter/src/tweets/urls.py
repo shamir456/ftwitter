@@ -4,13 +4,13 @@ from django.conf.urls.static import static
 from .views import (
 	TweetDetailView,
 	TweetListView,
-	TweetCreateView,tweet_create_view)
+	TweetCreateView)
 from django.conf import settings
 
 urlpatterns = [
    
     url(r'^$',TweetListView.as_view(),name='list'), #/tweets/
-    url(r'^create/$',tweet_create_view,name='create'),
+    url(r'^create/$',TweetCreateView.as_view(),name='create'),
     url(r'^(?P<pk>\d+)/$',TweetDetailView.as_view(),name='detail'), #/tweet/1
 ]
 
