@@ -2,9 +2,10 @@ from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Tweet
-from django.views.generic import DetailView,ListView,CreateView, UpdateView
+from django.views.generic import DetailView,ListView,CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
 from .forms import TweetModelForm 
-from .mixims import FormUserNeedMixim
+from .mixims import FormUserNeedMixim,UserOwnerMixin
 # Create your views here.
 class TweetCreateView(LoginRequiredMixin,FormUserNeedMixim,CreateView):
 	form_class = TweetModelForm
@@ -14,30 +15,18 @@ class TweetCreateView(LoginRequiredMixin,FormUserNeedMixim,CreateView):
 
 	
 
-
-# def tweet_create_view(request):
-# 	error = []
-# 	if request.method == 'POST':
-# 		form = TweetModelForm(request.POST,request.FILES)
-# 		if(form.is_valid() and request.user):
-# 			instance=form.save(commit=False)
-# 			instance.user = request.user
-# 			instance.save()
-# 		else:
-# 			error.append('Login ')
-# 			return render(request,'tweets/create_view.html',{
-# 		    "form":form,
-# 		    "error":error
-# 		})
-
+class TweetUpdateView(LoginRequiredMixin,UserOwnerMixin,UpdateView):
+	queryset = Tweet.objects.all()
+	form_class=TweetModelForm
+	template_name='tweets/update_view.html'
+	success_url='/tweet/'
+	
+class TweetDeleteView(LoginRequiredMixin,DeleteView):
+	model =Tweet
+	template_name='tweets/delete_confirm.html'
+	success_url=reverse_lazy('home')
+	
 		
-# 	else: 
-# 		form = TweetModelForm()
-
-# 	return render(request,'tweets/create_view.html',{
-# 		    "form":form,
-# 		    "error":error
-# 		})
 
 class TweetDetailView(DetailView):
 	template_name="tweets/detail_view.html"

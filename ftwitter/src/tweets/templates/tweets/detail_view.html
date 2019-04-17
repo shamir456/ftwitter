@@ -1,6 +1,9 @@
 <ul>
   
     <h2>{{object.content }}</h2>
-    <img src="{{ object.image.url}}" alt="{{object.content }}">
+    {% if object.image.url != null %}
+    <img src="{{ object.image.url}}" alt=" " height="150" width="150">
+    {% endif %}
+   
 
 </ul>
