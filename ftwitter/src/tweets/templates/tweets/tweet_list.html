@@ -1,4 +1,5 @@
 <ul>
+  {% include "tweets/search_form.html" %}<br/>
   {% for obj in object_list %}
 
 
@@ -9,14 +10,12 @@
     {% if obj.image.url != null %}
     <img src="{{ obj.image.url}}" alt=" " height="150" width="150">
     {% endif %}
- 
-</ul>
-
-<!--  {% empty %}
+  {% empty %}
       {% if request.GET.q %}
       <p>No tweet found</p>
       {% else %}
       <p>No tweet yet</p>
       {% endif%}
    
-  {% endfor %} -->
+  {% endfor %}
+</ul>
