@@ -11,7 +11,7 @@ from .mixims import FormUserNeedMixim,UserOwnerMixin
 class TweetCreateView(FormUserNeedMixim,CreateView):
 	form_class = TweetModelForm
 	template_name= 'tweets/create_view.html'
-	success_url = reverse_lazy("tweet:detail")
+	#success_url = reverse_lazy("tweet:detail")
 	#login_url = '/admin/'
 
 	
@@ -45,6 +45,9 @@ class TweetListView(ListView):
 	#queryset = Tweet.objects.all()
 	def get_context_data(self,*args,**kwargs):
 		context = super(TweetListView,self).get_context_data(*args,**kwargs)
+		context['create_form']=TweetModelForm()
+		context['create_url']=reverse_lazy('tweet:create')
+
 		return context
 
 	def get_queryset(self,*args,**kwargs):

@@ -1,5 +1,5 @@
-<form class="form" method="POST" enctype="multipart/form-data">
+<form class="form" method="POST" enctype="multipart/form-data" action="{% if action_url %}{{action_url}}{% endif %}">
 	{% csrf_token %}
     {{ form.as_p }}
-    <input type="submit" value="{{ btn_title }}" />
+    <input type="submit" class="btn btn-primary" value="{{ btn_title }}" />
 </form>

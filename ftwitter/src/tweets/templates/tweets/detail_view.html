@@ -8,7 +8,7 @@
     <img class="card-img-top" src="{{ object.image.url}}" alt=" " style="width: 500px;">
     {% endif %}
   	<div class="card-body">
-    <h5 class="card-title">Username</h5>
+    <h5 class="card-title">{{request.user}}</h5>
     <p class="card-text">{{object.content }}.</p>
   </div>
 

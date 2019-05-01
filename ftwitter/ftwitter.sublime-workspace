@@ -147,7 +147,7 @@
 			"file": "src/tweets/templates/tweets/tweet_list.html",
 			"settings":
 			{
-				"buffer_size": 880,
+				"buffer_size": 1009,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -158,6 +158,14 @@
 			{
 				"buffer_size": 3448,
 				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/tweets/models.py",
+			"settings":
+			{
+				"buffer_size": 534,
 				"line_ending": "Unix"
 			}
 		}
@@ -236,7 +244,7 @@
 	],
 	"find":
 	{
-		"height": 38.0
+		"height": 24.0
 	},
 	"find_in_files":
 	{
@@ -271,7 +279,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 2,
 			"sheets":
 			[
 				{
@@ -280,7 +288,7 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 880,
+						"buffer_size": 1009,
 						"regions":
 						{
 						},
@@ -301,7 +309,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
@@ -329,6 +337,35 @@
 						},
 						"translation.x": 0.0,
 						"translation.y": 1064.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "src/tweets/models.py",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 534,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
