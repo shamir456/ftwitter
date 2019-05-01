@@ -1,9 +1,9 @@
-<ul>
+{% extends "base.html" %}
+
+{% block content%}
   
     <h2>{{object.content }}</h2>
     {% if object.image.url != null %}
     <img src="{{ object.image.url}}" alt=" " height="150" width="150">
     {% endif %}
-   
-
-</ul>
+{% endblock content %}    
