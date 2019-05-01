@@ -2,26 +2,31 @@
 
 
 {% block content %}
-  
-   <div class="row align-items-center">
-         <div class="col-sm-4">
-        {% include "tweets/search_form.html" %}<br/>
-        {% for obj in object_list %}
-        <div class="media">
-         {% if obj.image.url != null %}
-          <img src="{{ obj.image.url}}" height="150" width="150" class="mr-3" alt="..."><br/>
-          {% endif %}
-        <div class="media-body">
-          <h4>{{obj.content }}</h4><br/>
-          via {{obj.user}} | {{ obj.timestamp|timesince}} ago | <a href="{{ obj.get_absolute_url}}">View</a>
-          
-         </div>
-        </div>
-        <hr/>
 
 
+ 
        
-      {% empty %}
+        <div class="row">
+         <div class="col-sm-8 col-sm-offset-2" >
+           <h2 >{{ request.user}}</h2>
+         </div>
+       <div class="col-sm-9" style="margin-left: 27%">
+        {% for obj in object_list %}
+        <div>
+        <div class="card text-white bg-dark " style="width:550px; padding: 24px; margin-top: -27px;">
+  {% if obj.image.url != null %}
+    <h3 class="card-title">{{obj.user}}</h3>
+    <h7  >{{obj.timestamp|timesince}} </h7>
+    <img class="card-img-top" src="{{ obj.image.url}}" alt=" " style="width: 500px;">
+    {% endif %} 
+    <div class="card-body">
+    <p  class="card-text">{{obj.content }}.</p>
+  <a href="{{ obj.get_absolute_url}}">View</a>
+  </div>
+
+  </div>
+    <hr/>
+   {% empty %}
           {% if request.GET.q %}
           <p>No tweet found</p>
           {% else %}
@@ -31,5 +36,6 @@
       {% endfor %}
       </div>
     </div>
+  
    
 {%  endblock content %}

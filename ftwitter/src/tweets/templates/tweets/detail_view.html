@@ -1,9 +1,17 @@
 {% extends "base.html" %}
 
 {% block content%}
-  
-    <h2>{{object.content }}</h2>
-    {% if object.image.url != null %}
-    <img src="{{ object.image.url}}" alt=" " height="150" width="150">
+	
+	
+	<div class="card text-white bg-dark " style="width:550px; padding: 24px; margin-left: 25%; margin-top: 7px;">
+	{% if object.image.url != null %}
+    <img class="card-img-top" src="{{ object.image.url}}" alt=" " style="width: 500px;">
     {% endif %}
+  	<div class="card-body">
+    <h5 class="card-title">Username</h5>
+    <p class="card-text">{{object.content }}.</p>
+  </div>
+
 {% endblock content %}    
+
+
