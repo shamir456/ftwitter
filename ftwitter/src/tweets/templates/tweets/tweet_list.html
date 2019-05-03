@@ -1,9 +1,190 @@
 {% extends "base.html" %}
 
 
+
+{% block script %}
+
+<style >
+  h9{
+    margin-top: -6%;
+
+    margin-left:  55%;
+
+    color: gray;
+
+    font-size: 13px;
+  }
+
+  .card{
+    margin-bottom: 40px;
+  }
+  .line{
+    background-color: lightgrey;
+  }
+  .card-body{
+    background-color: rgb(52, 97, 122);
+
+border-radius: 5px;
+
+margin-top: 10px;
+  }
+</style>
+
+<script >
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
+
+
+
+
+
+ $(document).ready(function() {
+    console.log("working");
+    var query = getParameterByName('q')
+    var tweeetList=[];
+
+
+    function attachTweet(value, prepend){
+        var tweetcontent=value.content;
+        var tweetuser= value.user.username;
+        var image = value.image;
+        var timesamp= value.date_display;
+        console.log(timesamp);
+        var timesince= value.timesince;
+        var tweetFormattedHtml= "<div ><div class=\'card text-white bg-dark\' style=\"width:550px; padding: 24px; margin-top: -27px; margin-bottom =100%;\"> <h5 >" + tweetuser + "</h5><h9 >" + timesamp + "| " + timesince + "</h9><img class='card-img-top'  src=" +  image + " alt=' ' style=\"width: 500px;\"><div class=\'card-body\'><p  class=\'card-text\'>" + tweetcontent + "</p></div><div></div><hr class=\'line\'/><a href ='#'>View</a>"
+            
+        if (prepend==true){
+          $("#tweet-container").prepend(tweetFormattedHtml)
+        }else{
+          $("#tweet-container").append(tweetFormattedHtml)
+        }
+    }
+
+    function parseTweets()
+    {
+      if (tweeetList == 0) 
+      {
+        $("#tweet-container").text("No tweet found")
+      }
+      else
+      {
+
+        $.each(tweeetList , function(key ,value){
+            var tweetKey=key;
+            attachTweet(value) 
+        })
+      }
+      
+    }
+    console.log(query)
+
+
+    
+
+function fetchTweets(){
+      console.log("fetching..")
+      $.ajax({url: "/api/tweet/",
+      data:{
+        "q": query
+      },
+      success: function(data){
+        tweeetList=data
+        parseTweets();
+      },error: function(data) {
+          console.log(data);
+          console.log("error")
+
+        }
+
+
+      })
+    }
+
+    fetchTweets()
+    
+
+var charsStart=140;
+var charsCurrent= 0;
+
+$("#tweet-form").append("<span id='tweetCharsLeft'>" + charsStart + "</span> ")
+
+$("#tweet-form textarea").keyup(function(event) {
+  var tweetValue= $(this).val()
+  charsCurrent= charsStart - tweetValue.length;
+  $("#tweetCharsLeft").text(charsCurrent);
+  var spanChars= $("#tweetCharsLeft")
+
+  if(charsCurrent>0){
+    spanChars.removeClass("grey-color")
+    spanChars.removeClass("red-color")
+
+  }else if( charsCurrent==0){
+    spanChars.removeClass("grey -color")
+     spanChars.addClass("red-color")
+  }else if( charsCurrent<0){
+    spanChars.removeClass("grey -color")
+     spanChars.addClass("red-color") 
+  }
+});
+
+
+
+$("#tweet-form").submit(function(event){
+  event.preventDefault();
+  console.log("dasjfhdljkfhajdk")
+  var this_ = $(this)
+  var formData= this_.serialize()
+  if( charsCurrent > 0){
+    console.log(charsCurrent)
+    console.log("jadhfladjskhfdasjkfh")
+    $.ajax({url: "/api/tweet/create/",
+        data:formData,
+        method:"POST",
+        success: function(data){
+          this_.find("input[type=text], textarea").val(" ")
+          console.log(data)
+          attachTweet(data,true)
+        },
+        error: function(data) {
+          console.log(data)
+          console.log("error")
+        }
+      }
+    )
+  }else{
+    console.log("cant send ")
+    console.log(charsCurrent)
+  }
+  
+
+})
+
+ 
+
+
+}); 
+
+
+</script>
+
+
+
+
+{% endblock script %}
+
 {% block content %}
 
   
+
+    
 
  
        
@@ -15,15 +196,27 @@
 
         {% if not request.GET.q %}
         <div class="">
-          {%  include "tweets/form.html" with form=create_form action_url=create_url btn_title='Tweet'  %}
+          {%  include "tweets/form.html" with form=create_form action_url=create_url btn_title='Tweet' form_id='tweet-form' %}
         </div>
         <hr/>
         {% endif %}
-        {% for obj in object_list %}
+          <div id='tweet-container'>     
+          </div>
+    </div>
+  </div>
+
+ 
+  
+   
+{%  endblock content %}
+
+
+
+  {% for obj in object_list %}
         <div>
         <div class="card text-white bg-dark " style="width:550px; padding: 24px; margin-top: -27px;">
   {% if obj.image.url != null %}
-    <h3 class="card-title">{{obj.user}}</h3>
+    <h3 id= "username" class="card-title">{{obj.user}}</h3>
     <h7  >{{obj.timestamp|timesince}} </h7>
     <img class="card-img-top" src="{{ obj.image.url}}" alt=" " style="width: 500px;">
     {% endif %} 
@@ -42,8 +235,3 @@
           {% endif%}
        
       {% endfor %}
-      </div>
-    </div>
-  
-   
-{%  endblock content %}
