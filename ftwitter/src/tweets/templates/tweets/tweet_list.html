@@ -42,24 +42,104 @@ function getParameterByName(name, url) {
 }
 
 
+$(document.body).on("click", ".tweet-reply", function(e){
+    e.preventDefault()
+    var this_ = $(this)
+    var parentId = this_.attr("data-id")
+    var username = this_.attr("data-user")
+    var content = this_.parent().parent().find(".content").text()
+    $("#replyModal").modal({})
+    $("#replyModal textarea").after("<input type='hidden' value='" + parentId + "' name='parent_id' />")
+    $("#replyModal textarea").after("<input type='hidden' value='" + true + "' name='reply' />")
+    $("#replyModal textarea").val("@" + username + " ")
+    $("#replyModal #replyModalLabel").text("Reply to " + content)
+    $("#replyModal").on("shown.bs.modal", function(){
+      $('textarea').focus()
+    })
+  })
 
 
+
+$(document.body).on("click",".tweet-like",function(e)
+    {
+      e.preventDefault()
+      var this_=$(this)
+      var tweetId=this_.attr("data-id")
+      console.log(tweetId)
+      var likedurl='/api/tweet/'+tweetId+'/like/'
+      console.log(likedurl)
+
+      $.ajax({
+        method:"GET",
+        url:likedurl,
+        success: function(data){
+          if(data.liked)
+          {
+            this_.text("UnLike")
+          }
+          else
+          {
+            this_.text("Like")
+          }
+        }
+      })
+    })  
 
 
  $(document).ready(function() {
     console.log("working");
     var query = getParameterByName('q')
     var tweeetList=[];
+    var nextTweetUrl;
 
 
-    function attachTweet(value, prepend){
+    function attachTweet(value, prepend,retweet){
         var tweetcontent=value.content;
         var tweetuser= value.user.username;
         var image = value.image;
         var timesamp= value.date_display;
-        console.log(timesamp);
+        var userurl=value.user.url
+        console.log(value.url);
         var timesince= value.timesince;
-        var tweetFormattedHtml= "<div ><div class=\'card text-white bg-dark\' style=\"width:550px; padding: 24px; margin-top: -27px; margin-bottom =100%;\"> <h5 >" + tweetuser + "</h5><h9 >" + timesamp + "| " + timesince + "</h9><img class='card-img-top'  src=" +  image + " alt=' ' style=\"width: 500px;\"><div class=\'card-body\'><p  class=\'card-text\'>" + tweetcontent + "</p></div><div></div><hr class=\'line\'/><a href ='#'>View</a>"
+        var tweetFormattedHtml;
+        var verb = 'Like';
+        if(value.did_like)
+        {
+          verb='UnLike'
+        }
+
+        if(retweet && value.parent)
+        {
+          if (image==null) 
+         {
+         tweetFormattedHtml= "<div ><div class=\'card text-white bg-dark\' style=\"width:550px; padding: 24px; margin-top: -27px; margin-bottom =100%;\"> <h5 >" +"<a href='"+userurl+ "'>"+tweetuser + "</a></h5><h9>Retweeted via "+value.parent.user.username +" at "+timesince+"</h9>"+"<img class='card-img-top'  " +"style=\"width: 500px;\"><div class=\'card-body\'><p  class=\'card-text\'>" + tweetcontent + "</p></div><div></div><hr class=\'line\'/>"+"<a href ='/tweet/"+value.id+"'"+">View</a>"
+         +"<a href ='/tweet/"+value.id+"/retweet/'"+">Retweet</a>"+"<a href ='#' class='tweet-like' data-id="+value.id+">"+verb+"("+value.likes+")</a></hr>"
+
+
+
+          }
+          else
+          {
+         tweetFormattedHtml= "<div ><div class=\'card text-white bg-dark\' style=\"width:550px; padding: 24px; margin-top: -27px; margin-bottom =100%;\"> <h5 >" +"<a href='"+userurl+ "'>"+tweetuser + "</a></h5>"+"<h9>Retweeted via "+value.parent.user.username + "at "+timesince+"</h9>"+"<img class='card-img-top'  src=" +  image +" alt='No\' '" +"style=\"width: 500px;\"><div class=\'card-body\'><p  class=\'card-text\'>" + tweetcontent + "</p></div><div></div><hr class=\'line\'/>"+"<a href ='/tweet/"+value.id+"'"+">View</a>"+"<a href ='/tweet/"+value.id+"/retweet/'"+">Retweet</a>"+"<a href ='#' class='tweet-like' data-id="+value.id+">"+verb+"("+value.likes+")</a></hr>"
+
+          }
+
+        }else
+        {
+          if (image==null) 
+         {
+         tweetFormattedHtml= "<div ><div class=\'card text-white bg-dark\' style=\"width:550px; padding: 24px; margin-top: -27px; margin-bottom =100%;\"> <h5 >" +"<a href='"+userurl+ "'>"+tweetuser + "</a></h5>" +"<h9>"+ timesamp + "| " + timesince +"</h9>"+ "<img class='card-img-top'  " +"style=\"width: 500px;\"><div class=\'card-body\'><p  class=\'card-text\'>" + tweetcontent + "</p></div><div></div><hr class=\'line\'/>"+"<a href ='/tweet/"+value.id+"'"+">View</a>"+"<a href ='/tweet/"+value.id+"/retweet/'"+">Retweet</a>" +  "<a href ='#' class='tweet-like' data-id="+value.id+">"+verb+"("+value.likes+")</a></hr>"
+
+          }
+          else
+          {
+           tweetFormattedHtml= "<div ><div class=\'card text-white bg-dark\' style=\"width:550px; padding: 24px; margin-top: -27px; margin-bottom =100%;\"> <h5 >" +"<a href='"+userurl+ "'>"+tweetuser + "</a></h5>"+ "<h9>"+ timesamp + "| " + timesince +"</h9>"+"<img class='card-img-top'  src=" +  image +" alt='No\' '" +"style=\"width: 500px;\"><div class=\'card-body\'><p  class=\'card-text\'>" + tweetcontent + "</p></div><div></div><hr class=\'line\'/><a href ='/tweet/"+value.id+"'"+">View</a>"+"<a href ='/tweet/"+value.id+"/retweet/'"+">Retweet</a>"+"<a href ='#' class='tweet-like' data-id="+value.id+">"+verb+"("+value.likes+")</a></hr>"
+
+
+          }
+
+        }
+         
             
         if (prepend==true){
           $("#tweet-container").prepend(tweetFormattedHtml)
@@ -79,24 +159,47 @@ function getParameterByName(name, url) {
 
         $.each(tweeetList , function(key ,value){
             var tweetKey=key;
-            attachTweet(value) 
+            if(value.parent)
+            {
+              attachTweet(value,false,true)
+            }else
+            {
+              attachTweet(value)
+
+            }
+             
         })
       }
       
     }
-    console.log(query)
 
 
-    
 
-function fetchTweets(){
+
+function fetchTweets(url){
       console.log("fetching..")
-      $.ajax({url: "/api/tweet/",
+      var fetchUrl;
+      if(!url)
+      {
+        fetchUrl="/api/tweet/"
+      }else{
+        fetchUrl=url
+      }
+      $.ajax({url:fetchUrl ,
       data:{
         "q": query
       },
       success: function(data){
-        tweeetList=data
+        tweeetList=data.results
+        
+        
+        if (data.next) {
+          nextTweetUrl=data.next
+        }else
+        {
+          $('#load-more').css("display","none")
+
+        }
         parseTweets();
       },error: function(data) {
           console.log(data);
@@ -108,8 +211,19 @@ function fetchTweets(){
       })
     }
 
-    fetchTweets()
     
+    
+fetchTweets()
+
+$('#load-more').click(function(event)
+{
+  event.preventDefault()
+  if (nextTweetUrl) 
+  {
+    fetchTweets(nextTweetUrl)
+  }
+
+})
 
 var charsStart=140;
 var charsCurrent= 0;
@@ -136,20 +250,27 @@ $("#tweet-form textarea").keyup(function(event) {
 });
 
 
-
+//image issues
 $("#tweet-form").submit(function(event){
   event.preventDefault();
-  console.log("dasjfhdljkfhajdk")
-  var this_ = $(this)
-  var formData= this_.serialize()
+  // var formData2 = new FormData(this);
+  // console.log(formData2)
+  // console.log("dasjfhdljkfhajdk")
+  // var this_ = $(this)
+  // var formData= this_.serialize()
+  //  console.log(formData)
   if( charsCurrent > 0){
     console.log(charsCurrent)
     console.log("jadhfladjskhfdasjkfh")
     $.ajax({url: "/api/tweet/create/",
-        data:formData,
+        enctype: 'multipart/form-data',
+        data:new FormData(this),
         method:"POST",
+        
+        processData: false,
+        contentType: false,
         success: function(data){
-          this_.find("input[type=text], textarea").val(" ")
+        //  this_.find("input[type=text], textarea").val(" ")
           console.log(data)
           attachTweet(data,true)
         },
@@ -202,6 +323,8 @@ $("#tweet-form").submit(function(event){
         {% endif %}
           <div id='tweet-container'>     
           </div>
+          <a href="#" id="load-more"> Load Tweets</a>
+
     </div>
   </div>
 
@@ -210,28 +333,3 @@ $("#tweet-form").submit(function(event){
    
 {%  endblock content %}
 
-
-
-  {% for obj in object_list %}
-        <div>
-        <div class="card text-white bg-dark " style="width:550px; padding: 24px; margin-top: -27px;">
-  {% if obj.image.url != null %}
-    <h3 id= "username" class="card-title">{{obj.user}}</h3>
-    <h7  >{{obj.timestamp|timesince}} </h7>
-    <img class="card-img-top" src="{{ obj.image.url}}" alt=" " style="width: 500px;">
-    {% endif %} 
-    <div class="card-body">
-    <p  class="card-text">{{obj.content }}.</p>
-  <a href="{{ obj.get_absolute_url}}">View</a>
-  </div>
-
-  </div>
-    <hr/>
-   {% empty %}
-          {% if request.GET.q %}
-          <p>No tweet found</p>
-          {% else %}
-          <p>No tweet yet</p>
-          {% endif%}
-       
-      {% endfor %}

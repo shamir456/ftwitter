@@ -16,6 +16,8 @@ Including another URLconf
 from django.conf.urls import url,include
 from django.contrib import admin
 
+from accounts.views import UserRegisterView
+
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -25,8 +27,13 @@ from tweets.views import TweetListView
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$',TweetListView.as_view(),name='home'),
+     #url(r'^',include('accounts.urls',namespace='profiles')),
     url(r'^tweet/',include('tweets.urls',namespace='tweet')),
     url(r'^api/tweet/',include('tweets.api.urls',namespace='tweet-api')),
+
+    url(r'^register/$', UserRegisterView.as_view(), name='register'), #/
+    url(r'^', include('django.contrib.auth.urls')),
+    url(r'^', include('accounts.urls', namespace='profiles')),
 ]
 
 if settings.DEBUG:

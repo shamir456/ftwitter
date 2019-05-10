@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content%}
+	
+  
+	<div class="row">
+    <div class="col-sm-3 col-xs-12">
+    <h1>{{object.username}}</h1>
+    <p>Followers:{{object.followed_by.all.count}}</p>
+    <p><a class="btn btn-link" href='{{ object.profile.get_follow_url}}'>{% if following %}UnFollow{% else %}Follow{%endif%}</a></p><br/>
+    <h1>Following <small>{{object.profile.get_following.count}}</small></h1>
+    {% for user in object.profile.get_following%}
+     <a href="/{{user.username}}">{{user.username}}</a><br/>
+     {%empty%}
+      <p>Not following</p>
+    {% endfor%}
+
+    <h1>Followed By</h1>
+    {% for profile in object.followed_by.all %}
+     <a href="/{{profile.user.username}}">{{profile.user.username}}</a><br/>
+     {%empty%}
+     <p>Not followed</p>
+    {% endfor%}
+  </div>
+     <div class="card text-white bg-dark "   style="width:550px; padding: 24px; margin-left: 25%; margin-top: 7px;">
+	 {% for tweet in object.tweet_set.all %}
+  
+   
+    	{% if tweet.image.url != null %}
+        <img class="card-img-top" src="{{ tweet.image.url}}" alt=" " style="width: 500px;">
+        {% endif %}
+      	<div class="card-body">
+        <h5 class="card-title">{{tweet.user}}</h5>
+        <p class="card-text">{{tweet.content }}.</p>
+        <hr class=\'line\'/><a href ='/tweet/{{tweet.id}}'>View</a>
+        <a href ='/tweet/{{tweet.id}}/retweet/'>Retweet</a>
+        <a href ='#' class='tweet-like' href="api/tweet/{{tweet.id}}/like/">{% if liked %}UnLike{% else %}Like{%endif%}</a></hr>
+        </div>
+    {% endfor %}
+
+    
+  
+</div>
+{% endblock content %}    

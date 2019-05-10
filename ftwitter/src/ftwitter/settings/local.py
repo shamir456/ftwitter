@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'tweets',
 'accounts',
     'rest_framework',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -55,6 +56,9 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'ftwitter.urls'
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL=LOGIN_REDIRECT_URL
 
 TEMPLATES = [
     {
@@ -78,7 +82,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ftwitter.wsgi.application'
 
-
+CRISPY_TEMPLATE_PACK = 'uni_form'
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 

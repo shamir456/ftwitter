@@ -1,13 +1,25 @@
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404,redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
-
+from django.views import View
 from .models import Tweet
 from django.views.generic import DetailView,ListView,CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+from django.http import HttpResponseRedirect
 from .forms import TweetModelForm 
 from .mixims import FormUserNeedMixim,UserOwnerMixin
 # Create your views here.
+
+class RetweetView(View):
+	"""docstring for ClassName"""
+	def get(self,request,pk,*args,**kwargs):
+		tweet=get_object_or_404(Tweet,pk=pk)
+		if request.user.is_authenticated():
+			new_tweet=Tweet.objects.retweet(request.user,tweet)
+			return HttpResponseRedirect("/")
+		return HttpResponseRedirect(tweet.get_absolute_url())
+	
+
 class TweetCreateView(FormUserNeedMixim,CreateView):
 	form_class = TweetModelForm
 	template_name= 'tweets/create_view.html'
