@@ -34,10 +34,7 @@ $(document).ready(function(){
         var timesince= value.timesince;
         var tweetFormattedHtml;
         var verb = 'Like';
-        // if(value.did_like)
-        // {
-        //   verb='UnLike'
-        // }
+       
 
         if(retweet && value.parent)
         {
@@ -51,7 +48,7 @@ $(document).ready(function(){
           }
           else
           {
-         tweetFormattedHtml= "<div ><div class=\'card text-white bg-dark\' style=\"width:550px; padding: 24px; margin-top: -27px; margin-bottom =100%;\"> <h5 >" +"<a href='"+userurl+ "'>"+tweetuser + "</a></h5>"+"<h9>Retweeted via "+value.parent.user.username + "at "+timesince+"</h9>"+"<img class='card-img-top'  src=" +  image +" alt='No\' '" +"style=\"width: 500px;\"><div class=\'card-body\'><p  class=\'card-text\'>" + tweetcontent + "</p></div><div></div><hr class=\'line\'/>"+"<a href ='/tweet/"+value.id+"'"+">View</a>"+"<a href ='/tweet/"+value.id+"/retweet/'"+">Retweet</a>"+"<a href ='#' class='tweet-like' data-id="+value.id+">"+verb+"("+value.likes+")</a></hr>"
+         tweetFormattedHtml= "<div ><div class=\'card text-white bg-dark\' style=\"width:550px; padding: 24px; margin-top: -27px; margin-bottom =100%;\"> <h5 >" +"<a href='"+userurl+ "'>"+tweetuser + "</a></h5>"+"<h9>Retweeted via "+value.parent.user.username + " at "+timesince+"</h9>"+"<img class='card-img-top'  src=" +  image +" alt='No\' '" +"style=\"width: 500px;\"><div class=\'card-body\'><p  class=\'card-text\'>" + tweetcontent + "</p></div><div></div><hr class=\'line\'/>"+"<a href ='/tweet/"+value.id+"'"+">View</a>"+"<a href ='/tweet/"+value.id+"/retweet/'"+">Retweet</a>"+"<a href ='#' class='tweet-like' data-id="+value.id+">"+verb+"("+value.likes+")</a></hr>"
 
           }
 
@@ -106,7 +103,7 @@ $(document).ready(function(){
 
 
 
-
+// fetch tweets from the Tweet Search  RestAPI
 function fetchTweets(){
       console.log("fetching..")
       var fetchUrl;
@@ -142,7 +139,7 @@ function fetchTweets(){
 
     
     
-// fetchTweets()
+// Load more tweets
 
 $('#load-more').click(function(event)
 {
@@ -154,47 +151,6 @@ $('#load-more').click(function(event)
 
 })
 
-var charsStart=140;
-var charsCurrent= 0;
-
-
-//image issues
-$("#tweet-form").submit(function(event){
-  event.preventDefault();
-  // var formData2 = new FormData(this);
-  // console.log(formData2)
-  // console.log("dasjfhdljkfhajdk")
-  // var this_ = $(this)
-  // var formData= this_.serialize()
-  //  console.log(formData)
-  if( charsCurrent > 0){
-    console.log(charsCurrent)
-    console.log("jadhfladjskhfdasjkfh")
-    $.ajax({url: "/api/tweet/create/",
-        enctype: 'multipart/form-data',
-        data:new FormData(this),
-        method:"POST",
-        
-        processData: false,
-        contentType: false,
-        success: function(data){
-        //  this_.find("input[type=text], textarea").val(" ")
-          console.log(data)
-          attachTweet(data,true)
-        },
-        error: function(data) {
-          console.log(data)
-          console.log("error")
-        }
-      }
-    )
-  }else{
-    console.log("cant send ")
-    console.log(charsCurrent)
-  }
-  
-
-})
 
  
 });
@@ -220,7 +176,7 @@ $("#tweet-form").submit(function(event){
           <div id='tweet-container' data-url='/api/search/' >
             
           </div>
-          <a href='#' id='loadmore'>Load More Tweets</a>
+          <a href='#' id='load-more'>Load More Tweets</a>
 
 
         </div>

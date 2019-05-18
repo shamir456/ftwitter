@@ -44,7 +44,7 @@ function getParameterByName(name, url) {
 
 
 
-
+// Like function
 $(document.body).on("click",".tweet-like",function(e)
     {
       e.preventDefault()
@@ -88,11 +88,9 @@ $(document.body).on("click",".tweet-like",function(e)
         var timesince= value.timesince;
         var tweetFormattedHtml;
         var verb = 'Like';
-        // if(value.did_like)
-        // {
-        //   verb='UnLike'
-        // }
+        
 
+        // for retweet template
         if(retweet && value.parent)
         {
           if (image==null) 
@@ -105,7 +103,7 @@ $(document.body).on("click",".tweet-like",function(e)
           }
           else
           {
-         tweetFormattedHtml= "<div ><div class=\'card text-white bg-dark\' style=\"width:550px; padding: 24px; margin-top: -27px; margin-bottom =100%;\"> <h5 >" +"<a href='"+userurl+ "'>"+tweetuser + "</a></h5>"+"<h9>Retweeted via "+value.parent.user.username + "at "+timesince+"</h9>"+"<img class='card-img-top'  src=" +  image +" alt='No\' '" +"style=\"width: 500px;\"><div class=\'card-body\'><p  class=\'card-text\'>" + tweetcontent + "</p></div><div></div><hr class=\'line\'/>"+"<a href ='/tweet/"+value.id+"'"+">View</a>"+"<a href ='/tweet/"+value.id+"/retweet/'"+">Retweet</a>"+"<a href ='#' class='tweet-like' data-id="+value.id+">"+verb+"("+value.likes+")</a></hr>"
+         tweetFormattedHtml= "<div ><div class=\'card text-white bg-dark\' style=\"width:550px; padding: 24px; margin-top: -27px; margin-bottom =100%;\"> <h5 >" +"<a href='"+userurl+ "'>"+tweetuser + "</a></h5>"+"<h9>Retweeted via "+value.parent.user.username + " at "+timesince+"</h9>"+"<img class='card-img-top'  src=" +  image +" alt='No\' '" +"style=\"width: 500px;\"><div class=\'card-body\'><p  class=\'card-text\'>" + tweetcontent + "</p></div><div></div><hr class=\'line\'/>"+"<a href ='/tweet/"+value.id+"'"+">View</a>"+"<a href ='/tweet/"+value.id+"/retweet/'"+">Retweet</a>"+"<a href ='#' class='tweet-like' data-id="+value.id+">"+verb+"("+value.likes+")</a></hr>"
 
           }
 
@@ -132,7 +130,7 @@ $(document.body).on("click",".tweet-like",function(e)
           $("#tweet-container").append(tweetFormattedHtml)
         }
     }
-
+// For parsing the tweets
     function parseTweets()
     {
       if (tweeetList == 0) 
@@ -235,18 +233,11 @@ $("#tweet-form textarea").keyup(function(event) {
 });
 
 
-//image issues
+//Tweet form responsive posting of tweets
 $("#tweet-form").submit(function(event){
   event.preventDefault();
-  // var formData2 = new FormData(this);
-  // console.log(formData2)
-  // console.log("dasjfhdljkfhajdk")
-  // var this_ = $(this)
-  // var formData= this_.serialize()
-  //  console.log(formData)
   if( charsCurrent > 0){
     console.log(charsCurrent)
-    console.log("jadhfladjskhfdasjkfh")
     $.ajax({url: "/api/tweet/create/",
         enctype: 'multipart/form-data',
         data:new FormData(this),
@@ -255,7 +246,6 @@ $("#tweet-form").submit(function(event){
         processData: false,
         contentType: false,
         success: function(data){
-        //  this_.find("input[type=text], textarea").val(" ")
           console.log(data)
           attachTweet(data,true)
         },

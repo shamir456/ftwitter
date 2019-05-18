@@ -49,10 +49,7 @@ class  TweetModelSerializer(serializers.ModelSerializer):
 		'did_like',
 		]
 
-	# def get_is_retweet(self,obj):
-	# 	if obj.parent:
-	# 		return True
-	# 	return False
+	
 	def get_did_like(self,obj):
 		request=self.context.get("request")
 		user=request.user

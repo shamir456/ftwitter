@@ -34,8 +34,6 @@ class UserDetailView(DetailView):
 	template_name = 'accounts/user_detail.html'
 	queryset = User.objects.all()
 
-	# def get_slug_field(self):
-	# 	return "username"
 	def get_object(self):
 		return get_object_or_404(User, username__iexact=self.kwargs.get("username"))
 
