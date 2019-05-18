@@ -1,14 +1,202 @@
 {% extends "base.html" %}
 
-<style>
-#tweet-container {
-}
-</style>
+
 
 {% block script %}
 <script>
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
+
+
 $(document).ready(function(){
-  loadTweetContainer("tweet-container")
+    console.log("working");
+    var query = getParameterByName('q')
+    var tweeetList=[];
+    var nextTweetUrl;
+
+  fetchTweets();
+
+  function attachTweet(value, prepend,retweet){
+        var tweetcontent=value.content;
+        var tweetuser= value.user.username;
+        var image = value.image;
+        var timesamp= value.date_display;
+        var userurl=value.user.url
+        console.log(value.url);
+        var timesince= value.timesince;
+        var tweetFormattedHtml;
+        var verb = 'Like';
+        // if(value.did_like)
+        // {
+        //   verb='UnLike'
+        // }
+
+        if(retweet && value.parent)
+        {
+          if (image==null) 
+         {
+         tweetFormattedHtml= "<div ><div class=\'card text-white bg-dark\' style=\"width:550px; padding: 24px; margin-top: -27px; margin-bottom =100%;\"> <h5 >" +"<a href='"+userurl+ "'>"+tweetuser + "</a></h5><h9>Retweeted via "+value.parent.user.username +" at "+timesince+"</h9>"+"<img class='card-img-top'  " +"style=\"width: 500px;\"><div class=\'card-body\'><p  class=\'card-text\'>" + tweetcontent + "</p></div><div></div><hr class=\'line\'/>"+"<a href ='/tweet/"+value.id+"'"+">View</a>"
+         +"<a href ='/tweet/"+value.id+"/retweet/'"+">Retweet</a>"+"<a href ='#' class='tweet-like' data-id="+value.id+">"+verb+"("+value.likes+")</a></hr>"
+
+
+
+          }
+          else
+          {
+         tweetFormattedHtml= "<div ><div class=\'card text-white bg-dark\' style=\"width:550px; padding: 24px; margin-top: -27px; margin-bottom =100%;\"> <h5 >" +"<a href='"+userurl+ "'>"+tweetuser + "</a></h5>"+"<h9>Retweeted via "+value.parent.user.username + "at "+timesince+"</h9>"+"<img class='card-img-top'  src=" +  image +" alt='No\' '" +"style=\"width: 500px;\"><div class=\'card-body\'><p  class=\'card-text\'>" + tweetcontent + "</p></div><div></div><hr class=\'line\'/>"+"<a href ='/tweet/"+value.id+"'"+">View</a>"+"<a href ='/tweet/"+value.id+"/retweet/'"+">Retweet</a>"+"<a href ='#' class='tweet-like' data-id="+value.id+">"+verb+"("+value.likes+")</a></hr>"
+
+          }
+
+        }else
+        {
+          if (image==null) 
+         {
+         tweetFormattedHtml= "<div ><div class=\'card text-white bg-dark\' style=\"width:550px; padding: 24px; margin-top: -27px; margin-bottom =100%;\"> <h5 >" +"<a href='"+userurl+ "'>"+tweetuser + "</a></h5>" +"<h9>"+ timesamp + "| " + timesince +"</h9>"+ "<img class='card-img-top'  " +"style=\"width: 500px;\"><div class=\'card-body\'><p  class=\'card-text\'>" + tweetcontent + "</p></div><div></div><hr class=\'line\'/>"+"<a href ='/tweet/"+value.id+"'"+">View</a>"+"<a href ='/tweet/"+value.id+"/retweet/'"+">Retweet</a>" +  "<a href ='#' class='tweet-like' data-id="+value.id+">"+verb+"("+value.likes+")</a></hr>"
+
+          }
+          else
+          {
+           tweetFormattedHtml= "<div ><div class=\'card text-white bg-dark\' style=\"width:550px; padding: 24px; margin-top: -27px; margin-bottom =100%;\"> <h5 >" +"<a href='"+userurl+ "'>"+tweetuser + "</a></h5>"+ "<h9>"+ timesamp + "| " + timesince +"</h9>"+"<img class='card-img-top'  src=" +  image +" alt='No\' '" +"style=\"width: 500px;\"><div class=\'card-body\'><p  class=\'card-text\'>" + tweetcontent + "</p></div><div></div><hr class=\'line\'/><a href ='/tweet/"+value.id+"'"+">View</a>"+"<a href ='/tweet/"+value.id+"/retweet/'"+">Retweet</a>"+"<a href ='#' class='tweet-like' data-id="+value.id+">"+verb+"("+value.likes+")</a></hr>"
+
+
+          }
+
+        }
+         
+            
+        if (prepend==true){
+          $("#tweet-container").prepend(tweetFormattedHtml)
+        }else{
+          $("#tweet-container").append(tweetFormattedHtml)
+        }
+    }
+
+    function parseTweets()
+    {
+      if (tweeetList == 0) 
+      {
+        $("#tweet-container").text("No tweet found")
+      }
+      else
+      {
+
+        $.each(tweeetList , function(key ,value){
+            var tweetKey=key;
+            if(value.parent)
+            {
+              attachTweet(value,false,true)
+            }else
+            {
+              attachTweet(value)
+
+            }
+             
+        })
+      }
+      
+    }
+
+
+
+
+function fetchTweets(){
+      console.log("fetching..")
+      var fetchUrl;
+    
+      fetchUrl="/api/search/"
+      
+      $.ajax({url:fetchUrl ,
+      data:{
+        "q": query
+      },
+      success: function(data){
+        console.log(data)
+        tweeetList=data.results
+        console.log(data.results)
+        
+        if (data.next) {
+          nextTweetUrl=data.next
+        }else
+        {
+          $('#load-more').css("display","none")
+
+        }
+        parseTweets();
+      },error: function(data) {
+          console.log(data);
+          console.log("error")
+
+        }
+
+
+      })
+    }
+
+    
+    
+// fetchTweets()
+
+$('#load-more').click(function(event)
+{
+  event.preventDefault()
+  if (nextTweetUrl) 
+  {
+    fetchTweets(nextTweetUrl)
+  }
+
+})
+
+var charsStart=140;
+var charsCurrent= 0;
+
+
+//image issues
+$("#tweet-form").submit(function(event){
+  event.preventDefault();
+  // var formData2 = new FormData(this);
+  // console.log(formData2)
+  // console.log("dasjfhdljkfhajdk")
+  // var this_ = $(this)
+  // var formData= this_.serialize()
+  //  console.log(formData)
+  if( charsCurrent > 0){
+    console.log(charsCurrent)
+    console.log("jadhfladjskhfdasjkfh")
+    $.ajax({url: "/api/tweet/create/",
+        enctype: 'multipart/form-data',
+        data:new FormData(this),
+        method:"POST",
+        
+        processData: false,
+        contentType: false,
+        success: function(data){
+        //  this_.find("input[type=text], textarea").val(" ")
+          console.log(data)
+          attachTweet(data,true)
+        },
+        error: function(data) {
+          console.log(data)
+          console.log("error")
+        }
+      }
+    )
+  }else{
+    console.log("cant send ")
+    console.log(charsCurrent)
+  }
+  
+
+})
+
+ 
 });
 </script>
 {% endblock script %}
@@ -29,7 +217,7 @@ $(document).ready(function(){
           <h1>Tweets</h1>
           <hr/>
 
-          <div id='tweet-container' data-url='/api/search/'>
+          <div id='tweet-container' data-url='/api/search/' >
             
           </div>
           <a href='#' id='loadmore'>Load More Tweets</a>

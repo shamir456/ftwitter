@@ -20,14 +20,17 @@ from accounts.views import UserRegisterView
 
 from django.conf import settings
 from django.conf.urls.static import static
+from tweets.api.views import SearchTweetAPIView
 
-from .views import home
+from .views import home,SearchView
 from tweets.views import TweetListView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$',TweetListView.as_view(),name='home'),
-     #url(r'^',include('accounts.urls',namespace='profiles')),
+    url(r'^search/$',SearchView.as_view(),name='search'),
+    url(r'^api/search/$',SearchTweetAPIView.as_view(),name='search-api'),
+     
     url(r'^tweet/',include('tweets.urls',namespace='tweet')),
     url(r'^api/tweet/',include('tweets.api.urls',namespace='tweet-api')),
 

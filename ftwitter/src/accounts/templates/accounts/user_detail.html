@@ -1,13 +1,16 @@
 {% extends "base.html" %}
 
 {% block content%}
-	
+
+
   
 	<div class="row">
     <div class="col-sm-3 col-xs-12">
     <h1>{{object.username}}</h1>
     <p>Followers:{{object.followed_by.all.count}}</p>
+    {%if request.user %}
     <p><a class="btn btn-link" href='{{ object.profile.get_follow_url}}'>{% if following %}UnFollow{% else %}Follow{%endif%}</a></p><br/>
+    {% endif %}
     <h1>Following <small>{{object.profile.get_following.count}}</small></h1>
     {% for user in object.profile.get_following%}
      <a href="/{{user.username}}">{{user.username}}</a><br/>
@@ -33,8 +36,8 @@
         <h5 class="card-title">{{tweet.user}}</h5>
         <p class="card-text">{{tweet.content }}.</p>
         <hr class=\'line\'/><a href ='/tweet/{{tweet.id}}'>View</a>
-        <a href ='/tweet/{{tweet.id}}/retweet/'>Retweet</a>
-        <a href ='#' class='tweet-like' href="api/tweet/{{tweet.id}}/like/">{% if liked %}UnLike{% else %}Like{%endif%}</a></hr>
+        <a href ='/tweet/{{tweet.id}}/retweet/'>Retweet</a></hr>
+      
         </div>
     {% endfor %}
 

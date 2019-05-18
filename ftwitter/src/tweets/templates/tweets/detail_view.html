@@ -8,8 +8,10 @@
     <img class="card-img-top" src="{{ object.image.url}}" alt=" " style="width: 500px;">
     {% endif %}
   	<div class="card-body">
-    <h5 class="card-title">{{request.user}}</h5>
+    <h5 class="card-title">{{object.user}}</h5>
     <p class="card-text">{{object.content }}.</p>
+      <a href ='/tweet/{{object.id}}/update/'>Update</a></hr>
+      <a href ='/tweet/{{object.id}}/delete/'>Delete</a></hr>
   </div>
 
 {% endblock content %}    

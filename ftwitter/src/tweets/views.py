@@ -8,6 +8,8 @@ from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
 from .forms import TweetModelForm 
 from .mixims import FormUserNeedMixim,UserOwnerMixin
+from django import forms
+
 # Create your views here.
 
 class RetweetView(View):
@@ -23,8 +25,7 @@ class RetweetView(View):
 class TweetCreateView(FormUserNeedMixim,CreateView):
 	form_class = TweetModelForm
 	template_name= 'tweets/create_view.html'
-	#success_url = reverse_lazy("tweet:detail")
-	#login_url = '/admin/'
+
 
 	
 
@@ -35,11 +36,25 @@ class TweetUpdateView(LoginRequiredMixin,UserOwnerMixin,UpdateView):
 	success_url='/tweet/'
 	
 class TweetDeleteView(LoginRequiredMixin,DeleteView):
-	model =Tweet
+	queryset = Tweet.objects.all()
+
 	template_name='tweets/delete_confirm.html'
 	success_url=reverse_lazy('tweet:list')
-	
-		
+	def delete(self, request, *args, **kwargs):
+		self.object = self.get_object()
+		if self.request.user == self.object.user:
+			success_url = self.get_success_url()
+			self.object.delete()
+			return HttpResponseRedirect(success_url)
+		else:
+			
+			return HttpResponseRedirect(self.object.get_absolute_url())
+
+
+	def get_object(self):
+		print(self.kwargs)
+		pk = self.kwargs.get("pk")
+		return Tweet.objects.get(id=pk)
 
 class TweetDetailView(DetailView):
 	template_name="tweets/detail_view.html"
@@ -75,21 +90,3 @@ class TweetListView(ListView):
 		
 
 
-# def tweet_detail_veiw(request,id=5):
-# 	obj= Tweet.objects.get(id=id)
-# 	print(obj.content)
-# 	context = {
-# 	   "object" : obj
-# 	}
-# 	return render(request,"tweets/detail_veiw.html",context)
-
-
-# def tweet_list_view(request):
-# 	queryset = Tweet.objects.all()
-# 	context = {
-# 	   "object_list":queryset
-# 	}
-# 	for i in queryset:
-# 		print(i.content)
-# 		print(i.image)
-# 	return render(request,"tweets/list_view.html",context)

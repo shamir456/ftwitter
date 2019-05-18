@@ -42,21 +42,6 @@ function getParameterByName(name, url) {
 }
 
 
-$(document.body).on("click", ".tweet-reply", function(e){
-    e.preventDefault()
-    var this_ = $(this)
-    var parentId = this_.attr("data-id")
-    var username = this_.attr("data-user")
-    var content = this_.parent().parent().find(".content").text()
-    $("#replyModal").modal({})
-    $("#replyModal textarea").after("<input type='hidden' value='" + parentId + "' name='parent_id' />")
-    $("#replyModal textarea").after("<input type='hidden' value='" + true + "' name='reply' />")
-    $("#replyModal textarea").val("@" + username + " ")
-    $("#replyModal #replyModalLabel").text("Reply to " + content)
-    $("#replyModal").on("shown.bs.modal", function(){
-      $('textarea').focus()
-    })
-  })
 
 
 
@@ -103,10 +88,10 @@ $(document.body).on("click",".tweet-like",function(e)
         var timesince= value.timesince;
         var tweetFormattedHtml;
         var verb = 'Like';
-        if(value.did_like)
-        {
-          verb='UnLike'
-        }
+        // if(value.did_like)
+        // {
+        //   verb='UnLike'
+        // }
 
         if(retweet && value.parent)
         {
