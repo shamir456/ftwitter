@@ -23,7 +23,8 @@ class UserRegisterView(FormView):
     def form_valid(self, form):
         username = form.cleaned_data.get("username")
         email = form.cleaned_data.get("email")
-        password = form.cleaned_data.get("password")
+        password = form.cleaned_data.get("pass1")
+        print(password)
         new_user = User.objects.create(username=username, email=email)
         new_user.set_password(password)
         new_user.save()

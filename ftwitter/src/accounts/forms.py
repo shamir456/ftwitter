@@ -15,7 +15,7 @@ class UserRegisterForm(forms.Form):
         pass2 = self.cleaned_data.get('pass2')
         if pass1 != pass2:
             raise forms.ValidationError("Password must match")
-        return pass2
+        return pass1
 
     def clean_username(self):
         username = self.cleaned_data.get('username')
