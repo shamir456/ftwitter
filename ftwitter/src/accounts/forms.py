@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 class UserRegisterForm(forms.Form):
-    username = forms.CharField()
+    username = forms.CharField(max_length=20)
     email = forms.EmailField()
     pass1 = forms.CharField(label='Password',widget=forms.PasswordInput)
     pass2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)

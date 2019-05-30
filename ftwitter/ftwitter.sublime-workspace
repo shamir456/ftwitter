@@ -4,6 +4,18 @@
 		"selected_items":
 		[
 			[
+				"e",
+				"else\telse"
+			],
+			[
+				"li",
+				"liked"
+			],
+			[
+				"ma",
+				"max_length"
+			],
+			[
 				"twee",
 				"tweeetList"
 			],
@@ -172,10 +184,6 @@
 				"UserProfile"
 			],
 			[
-				"e",
-				"exclude"
-			],
-			[
 				"Us",
 				"UserProfileManager"
 			],
@@ -284,10 +292,6 @@
 				"static"
 			],
 			[
-				"li",
-				"link\tTag"
-			],
-			[
 				"url",
 				"urls"
 			],
@@ -312,18 +316,10 @@
 	"buffers":
 	[
 		{
-			"file": "src/tweets/api/views.py",
+			"file": "src/ftwitter/settings/base.py",
 			"settings":
 			{
-				"buffer_size": 2914,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "src/tweets/api/serializers.py",
-			"settings":
-			{
-				"buffer_size": 1648,
+				"buffer_size": 3187,
 				"line_ending": "Unix"
 			}
 		}
@@ -386,37 +382,45 @@
 	[
 		"/home/zen/Documents/ftwitter/ftwitter",
 		"/home/zen/Documents/ftwitter/ftwitter/src",
+		"/home/zen/Documents/ftwitter/ftwitter/src/accounts",
 		"/home/zen/Documents/ftwitter/ftwitter/src/ftwitter",
+		"/home/zen/Documents/ftwitter/ftwitter/src/ftwitter/__pycache__",
+		"/home/zen/Documents/ftwitter/ftwitter/src/ftwitter/settings",
 		"/home/zen/Documents/ftwitter/ftwitter/src/tweets",
-		"/home/zen/Documents/ftwitter/ftwitter/src/tweets/api"
+		"/home/zen/Documents/ftwitter/ftwitter/src/tweets/templates"
 	],
 	"file_history":
 	[
+		"/home/zen/Documents/ftwitter/ftwitter/src/tweets/views.py",
+		"/home/zen/Documents/ftwitter/ftwitter/src/tweets/models.py",
 		"/home/zen/Documents/ftwitter/ftwitter/src/tweets/urls.py",
+		"/home/zen/Documents/ftwitter/ftwitter/src/ftwitter/settings/base.py",
+		"/home/zen/Documents/ftwitter/ftwitter/src/ftwitter/settings/production.py",
+		"/home/zen/Documents/ftwitter/ftwitter/src/ftwitter/settings/local.py",
+		"/home/zen/Documents/ftwitter/ftwitter/src/accounts/views.py",
+		"/home/zen/Documents/ftwitter/ftwitter/src/templates/search.html",
+		"/home/zen/Documents/ftwitter/ftwitter/src/tweets/api/serializers.py",
+		"/home/zen/Documents/ftwitter/ftwitter/src/accounts/forms.py",
+		"/home/zen/Documents/ftwitter/ftwitter/src/tweets/templates/tweets/tweet_list.html",
+		"/home/zen/Documents/ftwitter/ftwitter/src/tweets/admin.py",
+		"/home/zen/Documents/ftwitter/ftwitter/src/tweets/forms.py",
+		"/home/zen/Documents/ftwitter/ftwitter/src/tweets/api/urls.py",
+		"/home/zen/Documents/ftwitter/ftwitter/src/tweets/templates/tweets/search_form.html",
+		"/home/zen/Documents/ftwitter/ftwitter/src/accounts/templates/registration/login.html",
+		"/home/zen/Documents/ftwitter/ftwitter/src/accounts/urls.py",
+		"/home/zen/Documents/ftwitter/ftwitter/src/templates/base.html",
+		"/home/zen/Documents/ftwitter/ftwitter/src/templates/navbar.html",
+		"/home/zen/Documents/ftwitter/ftwitter/src/tweets/api/views.py",
 		"/home/zen/Documents/ftwitter/ftwitter/src/tweets/templates/tweets/detail_view.html",
 		"/home/zen/Documents/ftwitter/ftwitter/src/templates/home.html",
-		"/home/zen/Documents/ftwitter/ftwitter/src/accounts/forms.py",
 		"/home/zen/Documents/ftwitter/ftwitter/src/accounts/templates/accounts/user_detail.html",
-		"/home/zen/Documents/ftwitter/ftwitter/src/templates/navbar.html",
 		"/home/zen/Documents/ftwitter/ftwitter/src/accounts/templates/accounts/user_register_form.html",
-		"/home/zen/Documents/ftwitter/ftwitter/src/tweets/api/urls.py",
-		"/home/zen/Documents/ftwitter/ftwitter/src/accounts/templates/registration/login.html",
-		"/home/zen/Documents/ftwitter/ftwitter/src/tweets/api/views.py",
-		"/home/zen/Documents/ftwitter/ftwitter/src/tweets/templates/tweets/tweet_list.html",
 		"/home/zen/Documents/ftwitter/ftwitter/src/ftwitter/urls.py",
-		"/home/zen/Documents/ftwitter/ftwitter/src/templates/search.html",
 		"/home/zen/Documents/ftwitter/ftwitter/src/ftwitter/views.py",
-		"/home/zen/Documents/ftwitter/ftwitter/src/templates/base.html",
-		"/home/zen/Documents/ftwitter/ftwitter/src/tweets/views.py",
-		"/home/zen/Documents/ftwitter/ftwitter/src/ftwitter/settings/local.py",
-		"/home/zen/Documents/ftwitter/ftwitter/src/tweets/models.py",
-		"/home/zen/Documents/ftwitter/ftwitter/src/accounts/urls.py",
 		"/home/zen/Documents/ftwitter/ftwitter/src/accounts/models.py",
 		"/home/zen/Documents/ftwitter/ftwitter/src/templates/replymodal.html",
-		"/home/zen/Documents/ftwitter/ftwitter/src/accounts/views.py",
 		"/home/zen/Documents/ftwitter/ftwitter/src/accounts/api/urls.py",
 		"/home/zen/.config/sublime-text-3/Packages/Anaconda/Anaconda.sublime-settings",
-		"/home/zen/Documents/ftwitter/ftwitter/src/tweets/api/serializers.py",
 		"/home/zen/Documents/ftwitter/ftwitter/src/accounts/admin.py",
 		"/home/zen/Documents/ftwitter/ftwitter/lib/python3.5/site-packages/django/contrib/auth/backends.py",
 		"/home/zen/Documents/ftwitter/ftwitter/src/accounts/api/serializers.py",
@@ -453,7 +457,7 @@
 	],
 	"find":
 	{
-		"height": 38.0
+		"height": 24.0
 	},
 	"find_in_files":
 	{
@@ -467,6 +471,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"Retweet",
+			"tweet-like",
 			"tweet-container",
 			"like",
 			">\"+\"<",
@@ -491,62 +497,34 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "src/tweets/api/views.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2914,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2914,
-								2914
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 396.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "src/tweets/api/serializers.py",
+					"file": "src/ftwitter/settings/base.py",
 					"semi_transient": true,
 					"settings":
 					{
-						"buffer_size": 1648,
+						"buffer_size": 3187,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1648,
-								1648
+								870,
+								870
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage",
-							"translate_tabs_to_spaces": false
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 51.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,

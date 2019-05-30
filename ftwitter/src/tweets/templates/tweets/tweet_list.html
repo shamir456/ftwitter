@@ -88,7 +88,15 @@ $(document.body).on("click",".tweet-like",function(e)
         var timesince= value.timesince;
         var tweetFormattedHtml;
         var verb = 'Like';
-        
+        if (value.user.liked)
+        {
+
+          verb ='UnLike'
+        }
+        else
+        {
+         verb ='Like' 
+        }
 
         // for retweet template
         if(retweet && value.parent)

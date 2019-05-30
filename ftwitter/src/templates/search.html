@@ -151,6 +151,32 @@ $('#load-more').click(function(event)
 
 })
 
+// Like function
+$(document.body).on("click",".tweet-like",function(e)
+    {
+      e.preventDefault()
+      var this_=$(this)
+      var tweetId=this_.attr("data-id")
+      console.log(tweetId)
+      var likedurl='/api/tweet/'+tweetId+'/like/'
+      console.log(likedurl)
+
+      $.ajax({
+        method:"GET",
+        url:likedurl,
+        success: function(data){
+          if(data.liked)
+          {
+            this_.text("UnLike")
+          }
+          else
+          {
+            this_.text("Like")
+          }
+        }
+      })
+    })  
+
 
  
 });
